@@ -1,42 +1,24 @@
-
 import java.util.Arrays;
 
 public class lesson_01 {
-
-
     public static void main(String[] args) {
 
         printThreeWords();
-
         checkSumSign();
-
         printColor();
-
         compareNumbers();
-
         System.out.println(isMyMethod(7, 35));
-
         isNumber(-100);
-
         System.out.println(isMyNumber(0));
-
         isMyMethod02("Hello, world!", 5);
-
         System.out.println(isMyYear(2025));
-
         int[] arr = {1, 1, 0, 0, 1, 0, 1, 1, 0, 0};
         arrayMethod(arr);
-
         myArrayMethod(arr);
-
         updateMyArray(arr);
-
         myMatrix();
-
         int[] myArray = createArray(5, 100);
-
     }
-
 
     public static void printThreeWords() {
         System.out.println(" Orange, \n Banana, \n Apple ");
@@ -45,7 +27,6 @@ public class lesson_01 {
     public static void checkSumSign() {
         int a = 1;
         int b = 2;
-
         if (a + b >= 0) {
             System.out.println("Сумма положительная");
         } else if (a + b <= 0) {
@@ -55,7 +36,6 @@ public class lesson_01 {
 
     public static void printColor() {
         int value = 101;
-
         if (value < 0) {
             System.out.println("Красный");
         } else if (value > 0 && value < 100) {
@@ -68,12 +48,10 @@ public class lesson_01 {
     public static void compareNumbers() {
         int a = 504;
         int b = 500;
-
         if (a >= b) {
             System.out.println("a >= b");
         } else if (a <= b) {
             System.out.println("a < b");
-
         }
     }
 
@@ -99,24 +77,24 @@ public class lesson_01 {
     }
 
     public static boolean isMyYear(int year) {
-        if (year % 4 != 0) {
-            return false;
-        } else if (year % 100 != 0) {
-            return true;
-        } else {
-            return year % 400 == 0;
-        }
-
+//        if (year % 4 != 0) {
+//            return false;
+//        } else if (year % 100 != 0) {
+//            return true;
+//        } else {
+//            return year % 400 == 0;
+//        }
+        return (year % 400 == 0) || (year % 100 != 0 && year % 4 != 0);
     }
 
     public static void arrayMethod(int[] arr) {
-
         for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == 0) {
-                arr[i] = 1;
-            } else {
-                arr[i] = 0;
-            }
+            arr[i] = (arr[i] == 0) ? 1 : 0;
+//            if (arr[i] == 0) {
+//                arr[i] = 1;
+//            } else {
+//                arr[i] = 0;
+//            }
         }
         System.out.print("Изменённый массив: ");
         for (int num : arr) {
@@ -145,7 +123,6 @@ public class lesson_01 {
 
     public static void myMatrix() {
         int n = 3;
-
         int[][] matrix = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -165,7 +142,7 @@ public class lesson_01 {
     }
 
     public static int[] createArray(int len, int initialValue) {
-        int [] arr = new int[len];
+        int[] arr = new int[len];
         for (int i = 0; i < len; i++) {
             arr[i] = initialValue;
         }
@@ -173,7 +150,6 @@ public class lesson_01 {
         return arr;
 
     }
-
 
 }
 
