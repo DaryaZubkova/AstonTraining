@@ -77,24 +77,12 @@ public class lesson_01 {
     }
 
     public static boolean isMyYear(int year) {
-//        if (year % 4 != 0) {
-//            return false;
-//        } else if (year % 100 != 0) {
-//            return true;
-//        } else {
-//            return year % 400 == 0;
-//        }
         return (year % 400 == 0) || (year % 100 != 0 && year % 4 != 0);
     }
 
     public static void arrayMethod(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (arr[i] == 0) ? 1 : 0;
-//            if (arr[i] == 0) {
-//                arr[i] = 1;
-//            } else {
-//                arr[i] = 0;
-//            }
         }
         System.out.print("Изменённый массив: ");
         for (int num : arr) {
