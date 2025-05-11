@@ -1,0 +1,32 @@
+import io.restassured.RestAssured;
+import org.junit.jupiter.api.Test;
+
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.notNullValue;
+
+public class PatchRequest {
+    @Test
+    public void testPatchRequest() {
+        String requestBody = "This is expected to be sent back as part of response body.";
+        RestAssured
+                .given()
+                .log().all()
+                .contentType("text/plain")
+                .body(requestBody)
+                .when()
+                .patch("https://postman-echo.com/patch")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("args", anEmptyMap())
+                .body("data", equalTo(requestBody))
+                .body("files", anEmptyMap())
+                .body("form", anEmptyMap())
+                .body("json", nullValue())
+                .body("url", equalTo("https://postman-echo.com/patch"))
+                .body("headers.host", equalTo("postman-echo.com"))
+                .body("headers.'x-forwarded-proto'", equalTo("https"))
+                .body("headers.'content-type'", containsString("text/plain"))
+                .body("headers.'user-agent'", notNullValue());
+    }
+}
