@@ -1,35 +1,33 @@
 package pages;
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
+import java.util.List;
 
 public class MainPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
-    private final By cookieButton = By.xpath("//*[@id='cookie-agree']");
-    private final By phoneInput = By.xpath("//*[@id='connection-phone']");
-    private final By sumInput = By.xpath("//*[@id='connection-sum']");
-    private final By continueButton = By.xpath("//*[@id='pay-connection']/button");
-    private final By emailInput = By.xpath("//*[@id='connection-email']");
-    private final By dropdownButton = By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button");
-    private final By homeInternetOption = By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/button/span[1]");
-    private final By planOption = By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/ul/li[3]/p");
-    private final By accountInput = By.xpath("//*[@id='score-instalment']");
-    private final By arrearsButton = By.xpath("//*[@id='pay-section']/div/div/div[2]/section/div/div[1]/div[1]/div[2]/ul/li[4]/p");
-    private final By arrearsOption = By.xpath("//*[@id='score-arrears']");
-    private final By checkSum = By.xpath("//*[contains(text(),'100')]");
-    private final By buttonSum = By.xpath("//*[contains(text(),'100')]");
-    private final By checkPhone = By.xpath("//*[contains(text(),'375')]");
-    private final By cardNumber = By.xpath("//input[@placeholder='Номер карты']");
-    private final By periodOption = By.xpath("//app-card-input//form//app-input[1]//input");
-    private final By cvcOption = By.xpath("//app-card-input//form//div[2]//div[3]//app-input//input");
-    private final By nameOfCard = By.xpath("//app-card-input//form//div[3]//app-input//input");
-    private final By visaIcon = By.xpath("//img[contains(@src, 'visa')]");
-    private final By mastercardIcon = By.xpath("//img[contains(@src, 'mastercard')]");
-    private final By belcardIcon = By.xpath("//img[contains(@src, 'belkart') or contains(@alt, 'Белкарт')]");
+    private final By cookieButton = By.xpath("//button[@id='cookie-agree']");
+    private final By phoneInput = By.id("connection-phone");
+    private final By sumInput = By.id("connection-sum");
+    private final By continueButton = By.xpath("//button[@class='button button__default ']");
+    private final By emailInput = By.id("connection-email");
+    private final By dropdownButton = By.xpath("//button [@class='select__header']");
+    private final By homeInternetOption = By.xpath("//div[@id='pay-section']//section//ul/li[p]");
+    private final By planOption = By.xpath("//p[@class='select__option' and text()='Рассрочка']");
+    private final By accountInput = By.xpath("//input[@id='score-instalment']");
+    private final By arrearsButton = By.xpath("//p[@class='select__option' and text()='Задолженность']");
+    private final By arrearsOption = By.xpath("//input[@id='score-arrears']");
+    private By paymentFrame = By.xpath("//iframe[@class='bepaid-iframe']");
+    private By checkSum = By.xpath("//span[text()[contains(.,'100')]]");
+    private By checkPhone = By.xpath("//div[@class='pay-description__text']/span");
+    private By buttonSum = By.xpath("//button[@class='colored disabled' and contains(., '100.00 BYN')]");
+    private final By cardNumber = By.xpath("//label[@class ='ng-tns-c2312288139-1 ng-star-inserted']");
+    private final By periodOption = By.xpath("//label[@class = 'ng-tns-c2312288139-4 ng-star-inserted']");
+    private final By cvcOption = By.xpath("//label[@class = 'ng-tns-c2312288139-5 ng-star-inserted']");
+    private final By nameOfCard = By.xpath("//label[@class = 'ng-tns-c2312288139-3 ng-star-inserted']");
+    public final By allLogos = By.cssSelector("img[src*='system']:not([style*='opacity: 0'])");
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -131,20 +129,6 @@ public class MainPage {
         return placeholder != null && placeholder.contains("Номер счета на 2073");
     }
 
-    public void checkSum() {
-        WebElement checkSumElement = wait.until(ExpectedConditions.presenceOfElementLocated(checkSum));
-        checkSumElement.getAttribute("value");
-    }
-
-    public void buttonCheckSum() {
-        WebElement buttonCheckSumElement = wait.until(ExpectedConditions.presenceOfElementLocated(buttonSum));
-        buttonCheckSumElement.getAttribute("value");
-    }
-
-    public void checkPhone() {
-        WebElement checkPhoneNumber = wait.until(ExpectedConditions.presenceOfElementLocated(checkPhone));
-        checkPhoneNumber.getAttribute("value");
-    }
 
     public boolean checkCardNumber() {
         try {
@@ -182,18 +166,59 @@ public class MainPage {
         }
     }
 
-    public void checkLogoVisa() {
-        WebElement visaIconElement = wait.until(ExpectedConditions.presenceOfElementLocated(visaIcon));
-        visaIconElement.getAttribute("value");
+
+    public boolean isPaymentFrameDisplayed() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(paymentFrame)).isDisplayed();
     }
 
-    public void checkLogoMaster() {
-        WebElement masterLogo = wait.until(ExpectedConditions.presenceOfElementLocated(mastercardIcon));
-        masterLogo.getAttribute("value");
+    public String checkSum() {
+        try {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(paymentFrame));
+            WebElement checkSumElement = wait.until(ExpectedConditions.visibilityOfElementLocated(checkSum));
+            String amount = checkSumElement.getText();
+            return amount;
+        } finally {
+            driver.switchTo().defaultContent();
+        }
     }
 
-    public void checkLogoBelcard() {
-        WebElement belcardLogo = wait.until(ExpectedConditions.presenceOfElementLocated(belcardIcon));
-        belcardLogo.getAttribute("value");
+    public String checkPhone() {
+        try {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(paymentFrame));
+            WebElement checkPhoneElement = wait.until(ExpectedConditions.visibilityOfElementLocated(checkPhone));
+            String text = checkPhoneElement.getText();
+            return text;
+        } finally {
+            driver.switchTo().defaultContent();
+        }
+    }
+
+    public String buttonSum() {
+        try {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(paymentFrame));
+            WebElement buttonSumElement = wait.until(ExpectedConditions.visibilityOfElementLocated(buttonSum));
+            String text = buttonSumElement.getText();
+            return text;
+        } finally {
+            driver.switchTo().defaultContent();
+        }
+    }
+
+    public boolean allLogos() {
+        try {
+            List<WebElement> icons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(allLogos));
+            if (icons.isEmpty()) {
+                return false;
+            }
+            for (WebElement icon : icons) {
+                if (!icon.isDisplayed()) {
+                    return false;
+                }
+            }
+            return true;
+
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }
