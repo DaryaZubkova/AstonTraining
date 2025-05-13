@@ -1,5 +1,4 @@
 package tests;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.MainPage;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FormTest {
@@ -57,15 +55,12 @@ public class FormTest {
         Thread.sleep(500);
         mainPage.clickContinueButton();
         mainPage.checkSum();
-        mainPage.buttonCheckSum();
         mainPage.checkPhone();
+        mainPage.buttonSum();
         mainPage.checkCardNumber();
         mainPage.setPeriodOption();
         mainPage.checkCvcOption();
         mainPage.checkNameOfCard();
-        Thread.sleep(300);
-        mainPage.checkLogoVisa();
-        mainPage.checkLogoMaster();
-        mainPage.checkLogoBelcard();
+        mainPage.allLogos();
     }
 }
