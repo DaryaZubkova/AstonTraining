@@ -1,12 +1,10 @@
 package tests;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.MainPage;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @Epic("Тесты формы оплаты")
@@ -74,17 +72,13 @@ public class FormTest {
         Allure.step("5. Проверка элементов формы", () -> {
             Thread.sleep(500);
             mainPage.clickContinueButton();
-
             mainPage.checkSum();
             mainPage.checkPhone();
             mainPage.buttonSum();
             mainPage.checkCardNumber();
-
             mainPage.setPeriodOption();
-
             mainPage.checkCvcOption();
             mainPage.checkNameOfCard();
-
             Allure.step("Проверка логотипов", mainPage::allLogos);
         });
     }
