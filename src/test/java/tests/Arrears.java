@@ -1,14 +1,15 @@
 package tests;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import io.qameta.allure.*;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.MainPage;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Epic("Тесты формы оплаты")
+@Feature("Основной функционал формы")
+@DisplayName("Тестирование формы 'Задолженность'")
 public class Arrears {
     private WebDriver driver;
     private MainPage mainPage;
@@ -19,12 +20,14 @@ public class Arrears {
     }
 
     @BeforeEach
+    @Step("Инициализация драйвера и открытие страницы")
     void setupTest() {
         driver = new ChromeDriver();
         mainPage = new MainPage(driver);
     }
 
     @AfterEach
+    @Step("Закрытие браузера")
     void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -32,13 +35,24 @@ public class Arrears {
     }
 
     @Test
+    @Story("Проверка ввода данных")
+    @DisplayName("Проверка корректности заполнения формы")
+    @Description("Тест проверяет переход на услугу 'Задолженность', проверка плейсхолдеров в полях")
     void testFromPlan() {
-        mainPage.open();
-        mainPage.acceptCookie();
-        mainPage.dropdownClick();
-        mainPage.selectArrears();
-        assertTrue(mainPage.accountNumberArrears(), "Плейсхолдер поля 'Номер счета' не содержит ожидаемого текста");
-        assertTrue(mainPage.sumLabel(), "Плейсхолдер поля 'Сумма' не содержит ожидаемого текста");
-        assertTrue(mainPage.emailLabel(), "Плейсхолдер поля 'E-mail' не содержит ожидаемого текста");
+        Allure.step("1. Открытие главной страницы", () -> {
+            mainPage.open();
+            mainPage.acceptCookie();
+        });
+
+        Allure.step("2. Нажатие на выпадающее меню, выбор услуги 'Задолженность'", () -> {
+            mainPage.dropdownClick();
+            mainPage.selectArrears();
+        });
+
+        Allure.step("3. Проверка плейсхолдеров", () -> {
+            assertTrue(mainPage.accountNumberArrears(), "Плейсхолдер поля 'Номер счета' не содержит ожидаемого текста");
+            assertTrue(mainPage.sumLabel(), "Плейсхолдер поля 'Сумма' не содержит ожидаемого текста");
+            assertTrue(mainPage.emailLabel(), "Плейсхолдер поля 'E-mail' не содержит ожидаемого текста");
+        });
     }
 }

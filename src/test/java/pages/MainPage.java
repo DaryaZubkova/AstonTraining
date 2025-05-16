@@ -129,7 +129,6 @@ public class MainPage {
         return placeholder != null && placeholder.contains("Номер счета на 2073");
     }
 
-
     public boolean checkCardNumber() {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(cardNumber));
@@ -177,6 +176,36 @@ public class MainPage {
             WebElement checkSumElement = wait.until(ExpectedConditions.visibilityOfElementLocated(checkSum));
             String amount = checkSumElement.getText();
             return amount;
+    }
+
+    public String checkSum() {
+        try {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(paymentFrame));
+            WebElement checkSumElement = wait.until(ExpectedConditions.visibilityOfElementLocated(checkSum));
+            String amount = checkSumElement.getText();
+            return amount;
+        } finally {
+            driver.switchTo().defaultContent();
+        }
+    }
+
+    public String checkPhone() {
+        try {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(paymentFrame));
+            WebElement checkPhoneElement = wait.until(ExpectedConditions.visibilityOfElementLocated(checkPhone));
+            String text = checkPhoneElement.getText();
+            return text;
+        } finally {
+            driver.switchTo().defaultContent();
+        }
+    }
+
+    public String buttonSum() {
+        try {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(paymentFrame));
+            WebElement buttonSumElement = wait.until(ExpectedConditions.visibilityOfElementLocated(buttonSum));
+            String text = buttonSumElement.getText();
+            return text;
         } finally {
             driver.switchTo().defaultContent();
         }
