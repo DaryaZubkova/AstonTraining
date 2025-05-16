@@ -79,6 +79,7 @@ public class FormTest {
             mainPage.setPeriodOption();
             mainPage.checkCvcOption();
             mainPage.checkNameOfCard();
+
             Allure.step("Проверка логотипов", mainPage::allLogos);
         });
     }

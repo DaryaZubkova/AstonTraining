@@ -129,7 +129,6 @@ public class MainPage {
         return placeholder != null && placeholder.contains("Номер счета на 2073");
     }
 
-
     public boolean checkCardNumber() {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(cardNumber));
