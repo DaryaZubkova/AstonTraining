@@ -82,5 +82,27 @@ public class FormTest {
 
             Allure.step("Проверка логотипов", mainPage::allLogos);
         });
+        String testPhoneNumber = "(29)777-77-77";
+        mainPage.enterPhoneNumber(testPhoneNumber);
+        String enteredValue = mainPage.getEnteredPhoneNumber();
+        System.out.println("Введенный номер: " + enteredValue);
+        assertNotNull(enteredValue, "Пустое поле");
+        assertEquals(testPhoneNumber, enteredValue, "Введенный номер не совпадает с ожидаемым");
+        String testSum = "100";
+        mainPage.enterSum(testSum);
+        String enteredSum = mainPage.getEnteredSum();
+        System.out.println("Введенная сумма: " + enteredSum);
+        assertNotNull(enteredSum, "Сумма введена неверно");
+        assertEquals(testSum, enteredSum, "Введенная сумма не совпадает с ожидаемой");
+        Thread.sleep(500);
+        mainPage.clickContinueButton();
+        mainPage.checkSum();
+        mainPage.checkPhone();
+        mainPage.buttonSum();
+        mainPage.checkCardNumber();
+        mainPage.setPeriodOption();
+        mainPage.checkCvcOption();
+        mainPage.checkNameOfCard();
+        mainPage.allLogos();
     }
 }
