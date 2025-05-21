@@ -1,14 +1,15 @@
 package tests;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import io.qameta.allure.*;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pages.MainPage;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Epic("Тесты формы оплаты")
+@Feature("Основной функционал формы")
+@DisplayName("Тестирование формы 'Услуги связи'")
 public class CommunicationService {
     private WebDriver driver;
     private MainPage mainPage;
@@ -19,12 +20,14 @@ public class CommunicationService {
     }
 
     @BeforeEach
+    @Step("Инициализация драйвера и открытие страницы")
     void setupTest() {
         driver = new ChromeDriver();
         mainPage = new MainPage(driver);
     }
 
     @AfterEach
+    @Step("Закрытие браузера")
     void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -32,16 +35,25 @@ public class CommunicationService {
     }
 
     @Test
+    @Story("Проверка ввода данных")
+    @DisplayName("Проверка корректности заполнения формы")
+    @Description("Тест проверяет маску +375, проверка плейсхолдеров в полях")
     void testForm() {
-        mainPage.open();
-        mainPage.acceptCookie();
+        Allure.step("1. Открытие главной страницы", () -> {
+            mainPage.open();
+            mainPage.acceptCookie();
+        });
 
-        if (mainPage.phoneMaskCorrect()) {
-            System.out.println("Маска +375 найдена");
-        }
+        Allure.step("2. Проверка маски +375", () -> {
+            if (mainPage.phoneMaskCorrect()) {
+                System.out.println("Маска +375 найдена");
+            }
+        });
 
-        assertTrue(mainPage.phoneLabel(), "Плейсхолдер поля 'Номер телефона' не содержит ожидаемого текста");
-        assertTrue(mainPage.sumLabel(), "Плейсхолдер поля 'Сумма' не содержит ожидаемого текста");
-        assertTrue(mainPage.emailLabel(), "Плейсхолдер поля 'E-mail' не содержит ожидаемого текста");
+        Allure.step("3. Проверка плейсхолдеров в полях", () -> {
+            assertTrue(mainPage.phoneLabel(), "Плейсхолдер поля 'Номер телефона' не содержит ожидаемого текста");
+            assertTrue(mainPage.sumLabel(), "Плейсхолдер поля 'Сумма' не содержит ожидаемого текста");
+            assertTrue(mainPage.emailLabel(), "Плейсхолдер поля 'E-mail' не содержит ожидаемого текста");
+        });
     }
 }
